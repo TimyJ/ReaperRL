@@ -10,7 +10,7 @@ namespace ReaperRL
         public int panelWidth { get => viewport.Area.Width;  }
         public int panelHeight { get => viewport.Area.Height; }
 
-        Level curLevel;
+        public Level curLevel { get; private set; }
 
         public LevelRenderer(Level levelToRender) {
             curLevel = levelToRender;
@@ -28,7 +28,7 @@ namespace ReaperRL
             */
             foreach (Entity e in curLevel.GetEntitiesInRect(viewport.Area, 0))
             {
-                if (e.HasComponents(typeof(DisplayInfo))){
+                if (e.HasComponent(typeof(DisplayInfo))){
                     Terminal.Color(e.GetComponent<DisplayInfo>().color);
                     Terminal.Put(curLevel.EntityPosition(e) - viewport.Area.MinExtent, e.GetComponent<DisplayInfo>().Glyph);
                 }

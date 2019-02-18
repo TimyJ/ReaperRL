@@ -10,14 +10,14 @@ namespace TSRL
         public int MapHeight { get; }
         private LayeredSpatialMap<Entity> entities;
         public Entity PlayerCharacter { get; private set; }
-        public TerrainBase[,] Terrain; 
+        //public TerrainBase[,] Terrain; 
 
         public Level(int mapWidth, int mapHeight, int numberOfLayers)
         {
             MapWidth = mapWidth;
             MapHeight = mapHeight;
-            entities = new LayeredSpatialMap<Entity>(numberOfLayers, 0, (uint)numberOfLayers);
-            Terrain = new TerrainBase[mapWidth, mapHeight];
+            entities = new LayeredSpatialMap<Entity>(numberOfLayers, 0, 1);
+            //Terrain = new TerrainBase[mapWidth, mapHeight];
         }
 
         public void EnterLevel(Entity player)

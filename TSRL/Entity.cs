@@ -4,6 +4,7 @@ using System.Text;
 using GoRogue;
 using GoRogue.GameFramework;
 
+
 namespace TSRL
 {
     public class Entity : IHasID, IHasLayer, IHasComponents
@@ -17,6 +18,7 @@ namespace TSRL
         {
             Layer = 0;
             ID = generator.UseID();
+            components = new ComponentContainer();
         }
 
         public void AddComponent(object component)
