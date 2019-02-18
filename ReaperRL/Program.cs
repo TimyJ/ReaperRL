@@ -13,7 +13,7 @@ namespace ReaperRL
             Level l = new Level(96, 96, 2);
             LevelRenderer levelRenderer = new LevelRenderer(l);
             Entity player = new Entity();
-            player.AddComponent<DisplayInfo>(new DisplayInfo(player, '@', Color.White));
+            player.AddComponent(new DisplayInfo(player, '@', Color.White));
             l.EnterLevel(player);
 
             Globals.AddPanel(levelRenderer);

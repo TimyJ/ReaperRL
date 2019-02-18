@@ -20,6 +20,12 @@ namespace ReaperRL
         
         public void Draw()
         {
+            /*
+            foreach(Coord c in viewport.Area.Positions())
+            {
+                Terminal.Put(c, curLevel.Terrain[c.X, c.Y].Glyph);
+            }
+            */
             foreach (Entity e in curLevel.GetEntitiesInRect(viewport.Area, 0))
             {
                 if (e.HasComponents(typeof(DisplayInfo))){

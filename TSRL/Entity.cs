@@ -2,45 +2,61 @@
 using System.Collections.Generic;
 using System.Text;
 using GoRogue;
+using GoRogue.GameFramework;
 
 namespace TSRL
 {
-    public class Entity : IHasID, IHasLayer
+    public class Entity : IHasID, IHasLayer, IHasComponents
     {
         static IDGenerator generator = new IDGenerator();
         public uint ID { get; private set; }
         public int Layer { get; private set; }
-
-        private Dictionary<string, Component> _components;
+        private ComponentContainer components;
 
         public Entity()
         {
             Layer = 0;
             ID = generator.UseID();
-            _components = new Dictionary<string, Component>();
         }
 
-        public void AddComponent<T>(T component) where T : Component
+        public void AddComponent(object component)
         {
-            //Console.WriteLine(typeof(T).Name);
-            _components[typeof(T).Name] = component;
+            components.AddComponent(component);
         }
 
-        public bool HasComponents(params Type[] components)
+        public T GetComponent<T>()
         {
-            foreach (var comp in components)
-                if (!_components.ContainsKey(comp.Name))
-                    return false;
-
-            return true;
+            return components.GetComponent<T>();
         }
 
-        public T GetComponent<T>() where T : Component
+        public IEnumerable<T> GetComponents<T>()
         {
-            if (!_components.ContainsKey(typeof(T).Name))
-                return default(T);
+            return components.GetComponents<T>();
+        }
 
-            return (T)_components[typeof(T).Name];
+        public bool HasComponent(Type componentType)
+        {
+            return components.HasComponent(componentType);
+        }
+
+        public bool HasComponent<T>()
+        {
+            return components.HasComponent<T>();
+        }
+
+        public bool HasComponents(params Type[] componentTypes)
+        {
+            return components.HasComponents(componentTypes);
+        }
+
+        public void RemoveComponent(object component)
+        {
+            components.RemoveComponent(component);
+        }
+
+        public void RemoveComponents(params object[] componentss)
+        {
+            components.RemoveComponents(componentss);
         }
     }
 }

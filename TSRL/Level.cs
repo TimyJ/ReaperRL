@@ -17,6 +17,7 @@ namespace TSRL
             MapWidth = mapWidth;
             MapHeight = mapHeight;
             entities = new LayeredSpatialMap<Entity>(numberOfLayers, 0, (uint)numberOfLayers);
+            Terrain = new TerrainBase[mapWidth, mapHeight];
         }
 
         public void EnterLevel(Entity player)
