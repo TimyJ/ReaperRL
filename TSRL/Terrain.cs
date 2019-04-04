@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using GoRogue;
 
 namespace TSRL
 {

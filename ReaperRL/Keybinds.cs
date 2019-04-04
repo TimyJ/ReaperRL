@@ -20,6 +20,7 @@ namespace ReaperRL
         WAIT,
         ENTER,
         EXIT,
+        INTERACT,
         NULL,
     }
 
@@ -92,6 +93,8 @@ namespace ReaperRL
                     return Action.WAIT;
                 case Terminal.TK_I:
                     return Action.INVENTORY;
+                case Terminal.TK_SPACE:
+                    return Action.INTERACT;
 
                 //Selection
                 case Terminal.TK_ENTER:

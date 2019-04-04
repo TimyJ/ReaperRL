@@ -34,6 +34,7 @@ namespace TSRL
             if(panels.Count > 0)
             {
                 key = Terminal.Read();
+                if(key == Terminal.TK_CLOSE) { Terminal.Close();  Environment.Exit(0); }
                 for(int i = panels.Count - 1; i >= 0; --i)
                 {
                     if (!panels[i].HandleInput(key)){ break; }

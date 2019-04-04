@@ -1,6 +1,8 @@
 ﻿using TSRL;
 using GoRogue;
 using BearLib;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ReaperRL
 {
@@ -20,12 +22,6 @@ namespace ReaperRL
         
         public void Draw()
         {
-            /*
-            foreach(Coord c in viewport.Area.Positions())
-            {
-                Terminal.Put(c, curLevel.Terrain[c.X, c.Y].Glyph);
-            }
-            */
             foreach (Entity e in curLevel.GetEntitiesInRect(viewport.Area, 0))
             {
                 if (e.HasComponent(typeof(DisplayInfo))){
@@ -33,11 +29,45 @@ namespace ReaperRL
                     Terminal.Put(curLevel.EntityPosition(e) - viewport.Area.MinExtent, e.GetComponent<DisplayInfo>().Glyph);
                 }
             }
+            MessageLog.Draw();
         }
 
         public bool HandleInput(int key)
         {
-            return false;
+            Direction d = Direction.NONE;
+            switch (Keybinds.ReturnAction(key))
+            {
+                case Action.UP:
+                    d = Direction.UP;
+                    break;
+                case Action.DOWN:
+                    d = Direction.DOWN;
+                    break;
+                case Action.LEFT:
+                    d = Direction.LEFT;
+                    break;
+                case Action.RIGHT:
+                    d = Direction.RIGHT;
+                    break;
+
+
+                case Action.INTERACT:
+                    List<IInteractable> i = LevelExtentions.GetInteractablesAroundLocation(curLevel, curLevel.EntityPosition(curLevel.PlayerCharacter)).ToList<IInteractable>();
+                    if(i.Count == 1)
+                    {
+                        i[0].Interact(curLevel.PlayerCharacter, curLevel);
+                    }
+                    break;
+            }
+
+            if(d != Direction.NONE)
+            {
+                if(curLevel.MoveEntity(curLevel.PlayerCharacter, d))
+                {
+                    return true;
+                }
+            }
+            return true;
         }
 
         public void Resize(int screen_width, int screen_height)

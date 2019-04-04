@@ -10,14 +10,12 @@ namespace TSRL
         public int MapHeight { get; }
         private LayeredSpatialMap<Entity> entities;
         public Entity PlayerCharacter { get; private set; }
-        //public TerrainBase[,] Terrain; 
 
-        public Level(int mapWidth, int mapHeight, int numberOfLayers)
+        public Level(int mapWidth, int mapHeight, int numberOfLayers, uint LayersThatAreMulti)
         {
             MapWidth = mapWidth;
             MapHeight = mapHeight;
-            entities = new LayeredSpatialMap<Entity>(numberOfLayers, 0, 1);
-            //Terrain = new TerrainBase[mapWidth, mapHeight];
+            entities = new LayeredSpatialMap<Entity>(numberOfLayers, 0, LayersThatAreMulti);
         }
 
         public void EnterLevel(Entity player)
@@ -61,16 +59,17 @@ namespace TSRL
 
         public IEnumerable<Entity> GetEntitiesInRect(Rectangle rect, int layer)
         {
-            for(int x = rect.X; x <= rect.Width; ++x)
-            {
-                for(int y = rect.Y; y <= rect.Height; ++y)
+            foreach(Coord c in rect.Positions()) { 
+
+                foreach(Entity e in entities.GetLayer(layer).GetItems(c))
                 {
-                    foreach(Entity e in entities.GetLayer(layer).GetItems(x, y))
-                    {
-                        yield return e;
-                    }
+                    yield return e;
                 }
             }
+        }
+        public void RemoveEntity(Entity e)
+        {
+            entities.Remove(e);
         }
     }
 }
